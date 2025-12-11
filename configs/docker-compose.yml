@@ -7,6 +7,7 @@ services:
       - .env
     volumes:
       - ./bot.py:/app/bot.py
+      - ./src:/app/src
     logging:
       driver: "json-file"
       options:

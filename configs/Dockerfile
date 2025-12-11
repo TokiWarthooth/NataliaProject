@@ -9,6 +9,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копируем код приложения
+COPY src/ ./src/
 COPY bot.py .
 
 # Запускаем бота

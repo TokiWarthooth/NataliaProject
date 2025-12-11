@@ -1,6 +1,6 @@
 """Клавиатуры для бота"""
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
-from config import LEGAL_SERVICES
+from .config import LEGAL_SERVICES
 
 
 class KeyboardManager:

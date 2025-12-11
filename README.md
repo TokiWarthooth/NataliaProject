@@ -120,15 +120,35 @@ python bot.py
 
 ## Структура проекта
 
-- `bot.py` - основной файл бота с логикой
-- `requirements.txt` - зависимости Python
-- `Dockerfile` - образ для Docker
-- `docker-compose.yml` - конфигурация Docker Compose
-- `.env` - переменные окружения (не коммитится в git)
-- `.vscode/launch.json` - конфигурация для отладки
-- `.github/workflows/deploy.yml` - автоматический деплой через GitHub Actions
-- `deploy.sh` - скрипт для ручного деплоя на VPS
-- `telegram-bot.service` - systemd service файл для автозапуска
+```
+NataliaProject/
+├── src/                      # Исходный код бота
+│   ├── __init__.py
+│   ├── bot.py               # Главный файл бота
+│   ├── config.py            # Конфигурация и константы
+│   ├── handlers.py          # Обработчики команд
+│   ├── keyboards.py         # Клавиатуры
+│   └── application_service.py  # Сервис заявок
+├── configs/                 # Конфигурационные файлы
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── Procfile
+│   ├── railway.json
+│   └── render.yaml
+├── deploy/                  # Файлы для развертывания
+│   ├── deploy.sh
+│   └── telegram-bot.service
+├── docs/                    # Документация
+│   ├── DEPLOY.md
+│   ├── QUICK_DEPLOY.md
+│   └── QUICKSTART.md
+├── .github/workflows/       # GitHub Actions
+│   └── deploy.yml
+├── bot.py                   # Точка входа (запуск бота)
+├── requirements.txt         # Зависимости Python
+├── .env                     # Переменные окружения (не коммитится)
+└── README.md
+```
 
 ## Примечания
 

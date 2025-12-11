@@ -1,7 +1,7 @@
 """Сервис для работы с заявками"""
 from telegram import Update
 from telegram.ext import ContextTypes
-from config import LAWYER_CHAT_ID, logger
+from .config import LAWYER_CHAT_ID, logger
 
 
 class ApplicationService:

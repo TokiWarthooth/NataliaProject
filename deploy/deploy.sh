@@ -46,6 +46,7 @@ if systemctl is-active --quiet telegram-bot; then
 else
     echo -e "${YELLOW}⚠️  Сервис telegram-bot не найден. Запускаем бота вручную...${NC}"
     echo -e "${GREEN}✅ Деплой завершен! Запустите бота командой: python bot.py${NC}"
+    echo -e "${GREEN}   Или: python -m src.bot${NC}"
 fi
 
 echo -e "${GREEN}🎉 Деплой завершен успешно!${NC}"

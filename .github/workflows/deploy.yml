@@ -1,4 +1,4 @@
-name: Deploy Telegram Bot
+name: Deploy Natalis Telegram Bot
 
 on:
   push:
@@ -38,12 +38,5 @@ jobs:
           source venv/bin/activate || (python3 -m venv venv && source venv/bin/activate)
           pip install -r requirements.txt
           sudo systemctl restart telegram-bot || echo "Service not found, need to create it"
-    
-    - name: Deploy to Railway
-      if: ${{ secrets.RAILWAY_TOKEN != '' }}
-      uses: bervProject/railway-deploy@v1.0.0
-      with:
-        railway_token: ${{ secrets.RAILWAY_TOKEN }}
-        service: ${{ secrets.RAILWAY_SERVICE_ID }}
-        detach: true
+          echo "Deployment completed successfully" 
 

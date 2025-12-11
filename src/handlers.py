@@ -1,7 +1,7 @@
 """Обработчики команд и сообщений бота"""
 from telegram import Update
 from telegram.ext import ContextTypes, ConversationHandler
-from config import (
+from .config import (
     WAITING_DESCRIPTION, 
     WAITING_PHONE, 
     WAITING_EMAIL, 
@@ -10,8 +10,8 @@ from config import (
     CONSULTATION_PRICE,
     logger
 )
-from keyboards import KeyboardManager
-from application_service import ApplicationService
+from .keyboards import KeyboardManager
+from .application_service import ApplicationService
 
 
 class BotHandlers:
