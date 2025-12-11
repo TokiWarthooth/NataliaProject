@@ -14,26 +14,28 @@ ssh root@your-server-ip
 # 2. Установите необходимое
 apt update && apt install -y python3 python3-pip python3-venv git
 
-# 3. Клонируйте репозиторий
-git clone https://github.com/your-username/your-repo.git telegram-bot
-cd telegram-bot
+# 3. Создайте директорию и клонируйте репозиторий
+sudo mkdir -p /var/telegramBots
+cd /var/telegramBots
+sudo git clone https://github.com/your-username/your-repo.git NatalisBot
+cd NatalisBot
 
 # 4. Создайте .env файл
-nano .env
+sudo nano .env
 # Добавьте:
 # BOT_TOKEN=ваш_токен
 # LAWYER_CHAT_ID=ваш_chat_id
 
 # 5. Установите и запустите
-python3 -m venv venv
+sudo python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
 # 6. Настройте автозапуск (скопируйте deploy/telegram-bot.service в /etc/systemd/system/)
-sudo cp deploy/telegram-bot.service /etc/systemd/system/
+sudo cp deploy/telegram-bot.service /etc/systemd/system/natalisbot.service
 sudo systemctl daemon-reload
-sudo systemctl enable telegram-bot
-sudo systemctl start telegram-bot
+sudo systemctl enable natalisbot
+sudo systemctl start natalisbot
 ```
 
 ### Настройка автоматического деплоя:
@@ -43,7 +45,7 @@ sudo systemctl start telegram-bot
    - `VPS_HOST` - IP сервера Timeweb
    - `VPS_USER` - пользователь (root или другой)
    - `VPS_SSH_KEY` - приватный SSH ключ
-   - `VPS_DEPLOY_PATH` - путь к проекту (например, `/root/telegram-bot`)
+   - `VPS_DEPLOY_PATH` - путь к проекту: `/var/telegramBots/NatalisBot`
 
 3. Теперь при каждом `git push` бот автоматически обновится!
 
@@ -89,5 +91,5 @@ sudo systemctl start telegram-bot
 
 **Логи:**
 - Render: в веб-интерфейсе
-- VPS (Timeweb и др.): `sudo journalctl -u telegram-bot -f`
+- VPS (Timeweb и др.): `sudo journalctl -u natalisbot -f`
 

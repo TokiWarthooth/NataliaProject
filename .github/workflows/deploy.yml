@@ -37,6 +37,6 @@ jobs:
           git pull origin main || git pull origin master
           source venv/bin/activate || (python3 -m venv venv && source venv/bin/activate)
           pip install -r requirements.txt
-          sudo systemctl restart telegram-bot || echo "Service not found, need to create it"
+          sudo systemctl restart natalisbot || echo "Service natalisbot not found, need to create it"
           echo "Deployment completed successfully" 
 

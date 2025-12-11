@@ -46,20 +46,23 @@ su - telegrambot
 ### Шаг 2: Клонирование и настройка
 
 ```bash
+# Создайте директорию для ботов (если еще не создана)
+sudo mkdir -p /var/telegramBots
+cd /var/telegramBots
+
 # Клонируйте репозиторий
-cd /home/telegrambot
-git clone https://github.com/your-username/your-repo.git telegram-bot
-cd telegram-bot
+sudo git clone https://github.com/your-username/your-repo.git NatalisBot
+cd NatalisBot
 
 # Создайте виртуальное окружение
-python3 -m venv venv
+sudo python3 -m venv venv
 source venv/bin/activate
 
 # Установите зависимости
 pip install -r requirements.txt
 
 # Создайте файл .env
-nano .env
+sudo nano .env
 # Добавьте:
 # BOT_TOKEN=ваш_токен
 # LAWYER_CHAT_ID=ваш_chat_id
@@ -68,27 +71,30 @@ nano .env
 ### Шаг 3: Настройка systemd для автозапуска
 
 ```bash
-# Создайте service файл
-sudo nano /etc/systemd/system/telegram-bot.service
+# Скопируйте service файл
+sudo cp deploy/telegram-bot.service /etc/systemd/system/natalisbot.service
+
+# Или создайте вручную
+sudo nano /etc/systemd/system/natalisbot.service
 ```
 
-Вставьте содержимое из файла `telegram-bot.service` (см. ниже)
+Вставьте содержимое из файла `deploy/telegram-bot.service` (пути уже настроены на `/var/telegramBots/NatalisBot`)
 
 ```bash
 # Перезагрузите systemd
 sudo systemctl daemon-reload
 
 # Включите автозапуск
-sudo systemctl enable telegram-bot
+sudo systemctl enable natalisbot
 
 # Запустите бота
-sudo systemctl start telegram-bot
+sudo systemctl start natalisbot
 
 # Проверьте статус
-sudo systemctl status telegram-bot
+sudo systemctl status natalisbot
 
 # Просмотр логов
-sudo journalctl -u telegram-bot -f
+sudo journalctl -u natalisbot -f
 ```
 
 ### Шаг 4: Настройка автоматического деплоя через GitHub Actions
@@ -98,7 +104,7 @@ sudo journalctl -u telegram-bot -f
    - `VPS_HOST` - IP адрес вашего сервера
    - `VPS_USER` - имя пользователя (например, `telegrambot` или `root`)
    - `VPS_SSH_KEY` - приватный SSH ключ для доступа к серверу
-   - `VPS_DEPLOY_PATH` - путь к проекту на сервере (например, `/home/telegrambot/telegram-bot`)
+   - `VPS_DEPLOY_PATH` - путь к проекту на сервере: `/var/telegramBots/NatalisBot`
 
 3. Создайте SSH ключ на вашем компьютере (если еще нет):
 ```bash
@@ -141,11 +147,11 @@ ssh-copy-id user@your-server-ip
 
 ### Ручное обновление (VPS):
 ```bash
-cd /home/telegrambot/telegram-bot
+cd /var/telegramBots/NatalisBot
 git pull
 source venv/bin/activate
 pip install -r requirements.txt
-sudo systemctl restart telegram-bot
+sudo systemctl restart natalisbot
 ```
 
 ### Автоматическое обновление:
@@ -158,13 +164,13 @@ sudo systemctl restart telegram-bot
 ### VPS (systemd):
 ```bash
 # Просмотр логов
-sudo journalctl -u telegram-bot -f
+sudo journalctl -u natalisbot -f
 
 # Статус сервиса
-sudo systemctl status telegram-bot
+sudo systemctl status natalisbot
 
 # Перезапуск
-sudo systemctl restart telegram-bot
+sudo systemctl restart natalisbot
 ```
 
 ### Render:

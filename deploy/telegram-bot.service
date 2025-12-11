@@ -1,13 +1,13 @@
 [Unit]
-Description=Telegram Bot Service
+Description=NatalisBot - Telegram Bot для юридических услуг
 After=network.target
 
 [Service]
 Type=simple
-User=telegrambot
-WorkingDirectory=/home/telegrambot/telegram-bot
-Environment="PATH=/home/telegrambot/telegram-bot/venv/bin"
-ExecStart=/home/telegrambot/telegram-bot/venv/bin/python bot.py
+User=root
+WorkingDirectory=/var/telegramBots/NatalisBot
+Environment="PATH=/var/telegramBots/NatalisBot/venv/bin"
+ExecStart=/var/telegramBots/NatalisBot/venv/bin/python bot.py
 Restart=always
 RestartSec=10
 

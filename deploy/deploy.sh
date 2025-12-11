@@ -37,14 +37,14 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 # Перезапуск сервиса (если используется systemd)
-if systemctl is-active --quiet telegram-bot; then
-    echo -e "${GREEN}🔄 Перезапуск сервиса...${NC}"
-    sudo systemctl restart telegram-bot
+if systemctl is-active --quiet natalisbot; then
+    echo -e "${GREEN}🔄 Перезапуск сервиса NatalisBot...${NC}"
+    sudo systemctl restart natalisbot
     echo -e "${GREEN}✅ Бот перезапущен!${NC}"
     echo -e "${GREEN}📋 Статус:${NC}"
-    sudo systemctl status telegram-bot --no-pager -l
+    sudo systemctl status natalisbot --no-pager -l
 else
-    echo -e "${YELLOW}⚠️  Сервис telegram-bot не найден. Запускаем бота вручную...${NC}"
+    echo -e "${YELLOW}⚠️  Сервис natalisbot не найден. Запускаем бота вручную...${NC}"
     echo -e "${GREEN}✅ Деплой завершен! Запустите бота командой: python bot.py${NC}"
     echo -e "${GREEN}   Или: python -m src.bot${NC}"
 fi
