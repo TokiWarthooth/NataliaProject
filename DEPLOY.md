@@ -5,9 +5,9 @@
 ### 1. VPS (Рекомендуется) - от $5/мес
 
 **Популярные провайдеры:**
-- **Timeweb** - https://timeweb.com/ (от 200₽/мес, российский, рекомендуется) ⭐
-- **Hetzner** - https://www.hetzner.com/ (от €4/мес, очень дешево)
 - **DigitalOcean** - https://www.digitalocean.com/ (от $6/мес)
+- **Hetzner** - https://www.hetzner.com/ (от €4/мес, очень дешево)
+- **Timeweb** - https://timeweb.com/ (от 200₽/мес, российский)
 - **Selectel** - https://selectel.ru/ (от 300₽/мес, российский)
 
 **Преимущества:**
@@ -15,7 +15,24 @@
 - Надежность
 - Можно разместить несколько проектов
 
-### 2. Облачные функции (Serverless)
+### 2. Бесплатные платформы
+
+#### Railway (Рекомендуется для начала)
+- **Сайт:** https://railway.app/
+- **Бесплатно:** $5 кредитов в месяц
+- **Простота:** Очень легко развернуть
+
+#### Render
+- **Сайт:** https://render.com/
+- **Бесплатно:** Есть бесплатный тариф
+- **Ограничения:** Может "засыпать" при неактивности
+
+#### Fly.io
+- **Сайт:** https://fly.io/
+- **Бесплатно:** Есть бесплатный тариф
+- **Особенности:** Хорошо для небольших проектов
+
+### 3. Облачные функции (Serverless)
 
 - **Yandex Cloud Functions** - https://cloud.yandex.ru/
 - **AWS Lambda** - https://aws.amazon.com/lambda/
@@ -32,7 +49,7 @@
 ssh root@your-server-ip
 
 # Обновите систему
-apt update && apt upgrade -y
+apt update && apt upgrade -y 
 
 # Установите Python и Git
 apt install -y python3 python3-pip python3-venv git
@@ -46,23 +63,20 @@ su - telegrambot
 ### Шаг 2: Клонирование и настройка
 
 ```bash
-# Создайте директорию для ботов (если еще не создана)
-sudo mkdir -p /var/telegramBots
-cd /var/telegramBots
-
 # Клонируйте репозиторий
-sudo git clone https://github.com/your-username/your-repo.git NatalisBot
-cd NatalisBot
+cd /home/telegrambot
+git clone https://github.com/your-username/your-repo.git telegram-bot
+cd telegram-bot
 
 # Создайте виртуальное окружение
-sudo python3 -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 
 # Установите зависимости
 pip install -r requirements.txt
 
 # Создайте файл .env
-sudo nano .env
+nano .env
 # Добавьте:
 # BOT_TOKEN=ваш_токен
 # LAWYER_CHAT_ID=ваш_chat_id
@@ -71,39 +85,28 @@ sudo nano .env
 ### Шаг 3: Настройка systemd для автозапуска
 
 ```bash
-# Скопируйте service файл
-sudo cp deploy/natalisbot.service /etc/systemd/system/natalisbot.service
-
-# Проверьте, что файл скопирован
-ls -la /etc/systemd/system/natalisbot.service
-
-# Проверьте синтаксис файла
-sudo systemd-analyze verify /etc/systemd/system/natalisbot.service
+# Создайте service файл
+sudo nano /etc/systemd/system/natalisbot.service
 ```
 
-**Важно:** Выполняйте команды по отдельности, не слитно!
+Вставьте содержимое из файла `deploy/natalisbot.service` (см. ниже)
 
 ```bash
-# 1. Перезагрузите systemd (выполните отдельно)
+# Перезагрузите systemd
 sudo systemctl daemon-reload
 
-# 2. Включите автозапуск (выполните отдельно)
-sudo systemctl enable natalisbot
+# Включите автозапуск
+sudo systemctl enable telegram-bot
 
-# 3. Запустите бота (выполните отдельно)
-sudo systemctl start natalisbot
+# Запустите бота
+sudo systemctl start telegram-bot
 
-# 4. Проверьте статус
-sudo systemctl status natalisbot
+# Проверьте статус
+sudo systemctl status telegram-bot
 
-# 5. Просмотр логов
-sudo journalctl -u natalisbot -f
+# Просмотр логов
+sudo journalctl -u telegram-bot -f
 ```
-
-**Если команды не выполняются:**
-- Убедитесь, что у вас есть права sudo: `sudo whoami` (должно вывести `root`)
-- Проверьте, что файл существует: `ls /etc/systemd/system/natalisbot.service`
-- См. подробную инструкцию в [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 
 ### Шаг 4: Настройка автоматического деплоя через GitHub Actions
 
@@ -112,7 +115,7 @@ sudo journalctl -u natalisbot -f
    - `VPS_HOST` - IP адрес вашего сервера
    - `VPS_USER` - имя пользователя (например, `telegrambot` или `root`)
    - `VPS_SSH_KEY` - приватный SSH ключ для доступа к серверу
-   - `VPS_DEPLOY_PATH` - путь к проекту на сервере: `/var/telegramBots/NatalisBot`
+   - `VPS_DEPLOY_PATH` - путь к проекту на сервере (например, `/home/telegrambot/telegram-bot`)
 
 3. Создайте SSH ключ на вашем компьютере (если еще нет):
 ```bash
@@ -123,6 +126,32 @@ ssh-copy-id user@your-server-ip
 ```
 
 4. При каждом push в ветку `main` бот автоматически обновится на сервере!
+
+---
+
+## Развертывание на Railway
+
+### Шаг 1: Создайте аккаунт
+1. Зайдите на https://railway.app/
+2. Войдите через GitHub
+
+### Шаг 2: Создайте новый проект
+1. Нажмите "New Project"
+2. Выберите "Deploy from GitHub repo"
+3. Выберите ваш репозиторий
+
+### Шаг 3: Настройте переменные окружения
+1. В проекте перейдите в "Variables"
+2. Добавьте:
+   - `BOT_TOKEN` = ваш токен бота
+   - `LAWYER_CHAT_ID` = ваш chat ID
+
+### Шаг 4: Настройте команду запуска
+Railway автоматически определит Python проект, но убедитесь что:
+- В корне есть `requirements.txt`
+- Команда запуска: `python bot.py`
+
+### Готово! Бот автоматически развернется.
 
 ---
 
@@ -155,11 +184,11 @@ ssh-copy-id user@your-server-ip
 
 ### Ручное обновление (VPS):
 ```bash
-cd /var/telegramBots/NatalisBot
+cd /home/telegrambot/telegram-bot
 git pull
 source venv/bin/activate
 pip install -r requirements.txt
-sudo systemctl restart natalisbot
+sudo systemctl restart telegram-bot
 ```
 
 ### Автоматическое обновление:
@@ -172,25 +201,25 @@ sudo systemctl restart natalisbot
 ### VPS (systemd):
 ```bash
 # Просмотр логов
-sudo journalctl -u natalisbot -f
+sudo journalctl -u telegram-bot -f
 
 # Статус сервиса
-sudo systemctl status natalisbot
+sudo systemctl status telegram-bot
 
 # Перезапуск
-sudo systemctl restart natalisbot
+sudo systemctl restart telegram-bot
 ```
 
-### Render:
+### Railway/Render:
 Логи доступны прямо в веб-интерфейсе платформы.
 
 ---
 
 ## Рекомендации
 
-1. **Рекомендуется:** Timeweb VPS (от 200₽/мес, российский провайдер, надежный)
-2. **Альтернативы:** Hetzner (€4/мес) или DigitalOcean ($6/мес)
-3. **Для продакшна:** VPS дает полный контроль и надежность
+1. **Для начала:** Используйте Railway (бесплатно, просто)
+2. **Для продакшна:** Арендуйте VPS (надежнее, больше контроля)
+3. **Бюджет:** Hetzner или Timeweb (самые дешевые VPS)
 
 ## Безопасность
 

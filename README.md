@@ -129,7 +129,7 @@ NataliaProject/
 │   └── render.yaml
 ├── deploy/                  # Файлы для развертывания
 │   ├── deploy.sh
-│   └── telegram-bot.service
+│   └── natalisbot.service
 ├── docs/                    # Документация
 │   ├── DEPLOY.md
 │   ├── QUICK_DEPLOY.md

@@ -31,8 +31,8 @@ sudo python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# 6. Настройте автозапуск (скопируйте deploy/telegram-bot.service в /etc/systemd/system/)
-sudo cp deploy/telegram-bot.service /etc/systemd/system/natalisbot.service
+# 6. Настройте автозапуск (скопируйте deploy/natalisbot.service в /etc/systemd/system/)
+sudo cp deploy/natalisbot.service /etc/systemd/system/natalisbot.service
 sudo systemctl daemon-reload
 sudo systemctl enable natalisbot
 sudo systemctl start natalisbot
