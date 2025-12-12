@@ -25,7 +25,7 @@ def main():
         entry_points=[
             CallbackQueryHandler(
                 handlers.handle_service_selection, 
-                pattern='^(family|property|divorce|it_law|labor|criminal|civil|business)$'
+                pattern='^(family|it_law|labor|civil|business|licenses)$'
             )
         ],
         states={
